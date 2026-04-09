@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZERO CONTACT</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #262626;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container {
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #FF0000;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+    .status {
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+    .code-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      max-height: 120px;
+      overflow-y: auto;
+      display: none;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      margin: 6px;
+      transition: transform 0.15s;
+    }
+    .btn:active { transform: scale(0.95); }
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    .btn-copy {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .links { margin-top: 16px; }
+    .links a {
+      display: block;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+    .links a:hover { color: rgba(255,255,255,0.7); }
+    .hidden { display: none; }
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10b981;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ZERO CONTACT</h1>
+    <div class="subtitle">TACTICAL STEALTH GAME</div>
+
+    <!-- Stato: redirect in corso -->
+    <div id="redirecting">
+      <p class="status">Opening the app...</p>
+    </div>
+
+    <!-- Stato: fallback (app non installata o redirect fallito) -->
+    <div id="fallback" class="hidden">
+      <p class="status">
+        To import this agent report, open ZERO CONTACT and paste the code below into <strong>Decode Report</strong>.
+      </p>
+
+      <div id="codeBox" class="code-box"></div>
+
+      <button class="btn btn-copy" id="copyBtn" onclick="copyCode()">Copy Code</button>
+
+      <div style="margin-top: 24px;">
+        <p style="font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 12px;">Don't have the game?</p>
+        <a href="https://play.google.com/store/apps/details?id=com.zerocontact.pro" class="btn btn-primary">Get ZERO CONTACT</a>
+        <a href="https://play.google.com/store/apps/details?id=com.zerocontact.free" class="btn btn-secondary">Try Free Version</a>
+      </div>
+
+      <div class="links">
+        <a href="privacy-policy.html">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    var code = '';
+
+    function init() {
+      // Read the ZC code from the URL hash fragment
+      var hash = window.location.hash;
+      if (!hash || hash.length < 5) {
+        // No code in URL — show fallback without code box
+        showFallback(false);
+        return;
+      }
+
+      code = decodeURIComponent(hash.substring(1)); // Remove the '#'
+
+      // Choose the correct URL scheme based on the ZC code prefix
+      // ZC01 = PRO (zerocontact://), ZC00 = FREE (zc-the-prologue://)
+      var scheme = code.indexOf('ZC00') === 0 ? 'zc-the-prologue' : 'zerocontact';
+      var deepLink = scheme + '://decode/' + code;
+      window.location.href = deepLink;
+
+      // If the app doesn't handle the redirect within 2.5 seconds,
+      // show fallback with the code for manual copy-paste
+      setTimeout(function() {
+        showFallback(true);
+      }, 2500);
+    }
+
+    function showFallback(showCode) {
+      document.getElementById('redirecting').classList.add('hidden');
+      document.getElementById('fallback').classList.remove('hidden');
+      if (showCode && code) {
+        var codeBox = document.getElementById('codeBox');
+        codeBox.textContent = code;
+        codeBox.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('copyBtn').style.display = 'none';
+      }
+    }
+
+    function copyCode() {
+      if (!code) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function() { showToast(); });
+      } else {
+        // Fallback for older browsers
+        var ta = document.createElement('textarea');
+        ta.value = code;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      }
+    }
+
+    function showToast() {
+      var t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2000);
+    }
+
+    init();
+  </script>
+</body>
+</html>
