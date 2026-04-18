@@ -19,5 +19,12 @@
       "en": "Follow us on your favorite social to stay updated",
       "it": "Seguici sul tuo social preferito per rimanere aggiornato"
     }
+  },
+  {
+    "id": "4",
+    "text": {
+      "en": "Test",
+      "it": "Test ITA"
+    }
   }
 ]
