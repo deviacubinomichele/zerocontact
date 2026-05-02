@@ -1,11 +1,6 @@
 {
   "pro": [
-    { "id": "1", "text": { "en": "'Time Attack' mode is under development!", "it": "Modalità 'Sfida a tempo' in fase di sviluppo!" } },
-    { "id": "2", "text": { "en": "Support for more languages is coming soon!", "it": "È in arrivo il supporto ad altre lingue!" } },
-    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated", "it": "Seguici sul tuo social preferito per rimanere aggiornato" } }
   ],
   "free": [
-    { "id": "2", "text": { "en": "Support for more languages is coming soon!", "it": "È in arrivo il supporto ad altre lingue!" } },
-    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated", "it": "Seguici sul tuo social preferito per rimanere aggiornato" } }
   ]
 }
