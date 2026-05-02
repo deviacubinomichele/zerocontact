@@ -1,6 +1,9 @@
+
 {
   "pro": [
+    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated", "it": "Seguici sul tuo social preferito per rimanere aggiornato" } }
   ],
   "free": [
+    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated", "it": "Seguici sul tuo social preferito per rimanere aggiornato" } }
   ]
 }
