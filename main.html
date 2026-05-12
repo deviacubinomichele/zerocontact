@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero Contact - Countdown</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  body {
+    background-color: #262626;
+    background-image: url('carbon-fibre.png');
+    background-repeat: repeat;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .splash-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    padding: 20px;
+  }
+  .logo-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 2;
+  }
+  .text-layer {
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #ffffff;
+    margin: 0;
+    text-shadow:
+      -3px -3px 0 #000000,
+       3px -3px 0 #000000,
+      -3px  3px 0 #000000,
+       3px  3px 0 #000000;
+    opacity: 0;
+    transform: scale(0.95);
+    text-align: center;
+    width: 100%;
+  }
+  .text-top {
+    font-size: min(3.5vw, 36px);
+    letter-spacing: clamp(3px, 1vw, 8px);
+  }
+  .text-bottom {
+    font-size: min(6vw, 64px);
+    letter-spacing: min(1.5vw, 12px);
+    margin-top: clamp(10px, 3vh, 25px);
+  }
+  .text-layer.decoding {
+    opacity: 1;
+    transform: scale(1);
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .text-layer.revealed {
+    opacity: 1;
+    transform: scale(1);
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .text-layer .char-inverted {
+    color: #000000;
+    background: #ffffff;
+    text-shadow: none;
+    padding: 0 1px;
+  }
+  .loading-section {
+    position: absolute;
+    bottom: clamp(40px, 8vh, 80px);
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  .loading-section.animate {
+    animation: fadeInLoader 0.5s 0.5s forwards;
+  }
+  .loading-section.fade-out {
+    transition: opacity 0.8s ease-out;
+    opacity: 0 !important;
+  }
+  .loading-text {
+    color: #ffffff;
+    font-size: clamp(14px, 2.1vw, 18px);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    text-align: center;
+    width: 100%;
+    text-shadow:
+      -1px -1px 0 #000000,
+       1px -1px 0 #000000,
+      -1px  1px 0 #000000,
+       1px  1px 0 #000000;
+  }
+  .loader-wrapper {
+    width: clamp(150px, 40vw, 250px);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .loader-progress {
+    width: 30%;
+    height: 100%;
+    background: #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+    position: absolute;
+    animation: loaderSlide 2s infinite ease-in-out;
+  }
+  @keyframes fadeInLoader {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes loaderSlide {
+    0% { left: -30%; }
+    100% { left: 100%; }
+  }
+  .wishlist-btn {
+    position: absolute;
+    bottom: clamp(40px, 8vh, 80px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #10b981, #059669);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 32px;
+    font-size: clamp(14px, 2.1vw, 18px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.15s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  }
+  .wishlist-btn.visible {
+    animation: fadeInBtn 0.6s ease-out forwards;
+    pointer-events: auto;
+  }
+  .wishlist-btn:active {
+    transform: translateX(-50%) scale(0.95);
+  }
+  @keyframes fadeInBtn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  @media (max-height: 450px) {
+    .wishlist-btn { bottom: 20px; padding: 10px 24px; }
+    .text-top { font-size: clamp(16px, 4vh, 28px); }
+    .text-bottom { font-size: min(7vh, 52px); margin-top: 8px; }
+    .loading-section { bottom: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="splash-container">
+  <div class="logo-group">
+    <div class="text-layer text-top" id="textTop"></div>
+    <div class="text-layer text-bottom" id="textBottom"></div>
+  </div>
+  <div class="loading-section" id="loadingSection">
+    <div class="loading-text">Receiving mission data..</div>
+    <div class="loader-wrapper">
+      <div class="loader-progress"></div>
+    </div>
+  </div>
+  <a class="wishlist-btn" id="wishlistBtn" href="https://play.google.com/store/apps/details?id=com.micheleiacubino.zerocontactfree" target="_blank" rel="noopener">Wishlist now</a>
+</div>
+<script>
+  const LOCK_INTERVAL = 100;
+  const COUNTDOWN_START_DELAY = 800;
+  const LAST_LETTER_BLINK_1 = 200;
+  const LAST_LETTER_BLINK_2 = 400;
+  const LAST_LETTER_BLINK_END = 600;
+
+  const TARGET_DATE = new Date('2026-05-30T00:00:00');
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*<>?/|\\';
+
+  const TEXTS = {
+    en: { title: 'MISSION STARTS IN...', loading: 'Receiving mission data..', wishlist: 'Wishlist now', d: 'd', h: 'h', m: 'm', s: 's' },
+    it: { title: 'LA MISSIONE INIZIA TRA...', loading: 'Ricezione dati missione..', wishlist: 'Pre-registrati ora', d: 'g', h: 'h', m: 'm', s: 's' },
+    fr: { title: 'MISSION STARTS IN...', loading: 'Receiving mission data..', wishlist: 'Wishlist now', d: 'j', h: 'h', m: 'm', s: 's' },
+    de: { title: 'MISSION STARTS IN...', loading: 'Receiving mission data..', wishlist: 'Wishlist now', d: 'T', h: 'h', m: 'm', s: 's' },
+    es: { title: 'MISSION STARTS IN...', loading: 'Receiving mission data..', wishlist: 'Wishlist now', d: 'd', h: 'h', m: 'm', s: 's' },
+    ja: { title: 'MISSION STARTS IN...', loading: 'Receiving mission data..', wishlist: 'Wishlist now', d: '日', h: '時', m: '分', s: '秒' },
+    sq: { title: 'MISSION STARTS IN...', loading: 'Receiving mission data..', wishlist: 'Wishlist now', d: 'd', h: 'o', m: 'm', s: 's' },
+  };
+
+  function detectLang() {
+    const lang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+    const supported = ['en', 'it', 'fr', 'de', 'es', 'ja', 'sq'];
+    const exact = supported.find(s => lang === s);
+    if (exact) return exact;
+    const prefix = lang.split('-')[0];
+    return supported.find(s => s === prefix) || 'en';
+  }
+
+  const LANG = detectLang();
+  const T = TEXTS[LANG];
+  const targetTop = T.title;
+
+  const textTopEl = document.getElementById('textTop');
+  const textBottomEl = document.getElementById('textBottom');
+  const loadingSection = document.getElementById('loadingSection');
+  const loadingTextEl = document.querySelector('.loading-text');
+  const wishlistBtn = document.getElementById('wishlistBtn');
+
+  loadingTextEl.textContent = T.loading;
+  wishlistBtn.textContent = T.wishlist;
+
+  let countdownInterval = null;
+
+  function getCountdownString() {
+    let diff = Math.max(0, TARGET_DATE - new Date());
+    const days = Math.floor(diff / 86400000); diff %= 86400000;
+    const hours = Math.floor(diff / 3600000); diff %= 3600000;
+    const mins = Math.floor(diff / 60000); diff %= 60000;
+    const secs = Math.floor(diff / 1000);
+    return String(days).padStart(2, '0') + T.d + ' '
+         + String(hours).padStart(2, '0') + T.h + ' '
+         + String(mins).padStart(2, '0') + T.m + ' '
+         + String(secs).padStart(2, '0') + T.s;
+  }
+
+  function renderWord(el, arr) {
+    el.innerHTML = '';
+    arr.forEach(c => {
+      const span = document.createElement('span');
+      span.textContent = c.char;
+      if (c.inverted) span.classList.add('char-inverted');
+      el.appendChild(span);
+    });
+  }
+
+  function renderPlain(el, text) {
+    el.innerHTML = '';
+    text.split('').forEach(ch => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      el.appendChild(span);
+    });
+  }
+
+  function scramble(target, locked) {
+    return target.split('').map((ch, i) => {
+      if (ch === ' ') return { char: ' ', inverted: false };
+      if (locked[i]) return { char: ch, inverted: false };
+      return {
+        char: chars[Math.floor(Math.random() * chars.length)],
+        inverted: Math.random() < 0.25,
+      };
+    });
+  }
+
+  function scrambleWithBlink(target, locked, blinkIndex, blinkInverted) {
+    return target.split('').map((ch, i) => {
+      if (ch === ' ') return { char: ' ', inverted: false };
+      if (locked[i]) {
+        if (i === blinkIndex && blinkInverted) return { char: ch, inverted: true };
+        return { char: ch, inverted: false };
+      }
+      return {
+        char: chars[Math.floor(Math.random() * chars.length)],
+        inverted: Math.random() < 0.25,
+      };
+    });
+  }
+
+  function startCountdownTick() {
+    textBottomEl.classList.remove('decoding');
+    textBottomEl.classList.add('revealed');
+    loadingSection.classList.add('fade-out');
+    // 0.8s fade-out + 3s wait = 3.8s
+    setTimeout(() => { wishlistBtn.classList.add('visible'); }, 2800);
+    countdownInterval = setInterval(() => {
+      renderPlain(textBottomEl, getCountdownString());
+    }, 1000);
+  }
+
+  function startSplash() {
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    loadingSection.classList.remove('animate', 'fade-out');
+
+    const targetBottom = getCountdownString();
+
+    const lockedTop = new Array(targetTop.length).fill(false);
+    const lockedBottom = new Array(targetBottom.length).fill(false);
+
+    // Build lock order (skip spaces)
+    const lockOrder = [];
+    for (let i = 0; i < targetTop.length; i++) {
+      if (targetTop[i] !== ' ') lockOrder.push({ word: 'top', index: i });
+    }
+    for (let i = 0; i < targetBottom.length; i++) {
+      if (targetBottom[i] !== ' ') lockOrder.push({ word: 'bottom', index: i });
+    }
+
+    // Shuffle all except the last non-space char of top text (the blink letter)
+    const lastNonSpaceTop = (() => {
+      for (let i = targetTop.length - 1; i >= 0; i--) {
+        if (targetTop[i] !== ' ' && targetTop[i] !== '.') return i;
+      }
+      return targetTop.length - 1;
+    })();
+
+    // Remove the blink letter from the shuffled pool, add it at the end
+    const blinkIdx = lockOrder.findIndex(o => o.word === 'top' && o.index === lastNonSpaceTop);
+    const blinkItem = lockOrder.splice(blinkIdx, 1)[0];
+
+    for (let i = lockOrder.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [lockOrder[i], lockOrder[j]] = [lockOrder[j], lockOrder[i]];
+    }
+    lockOrder.push(blinkItem);
+
+    const totalLetters = lockOrder.length;
+    let lockIndex = 0;
+    let blinkPauseActive = false;
+
+    textTopEl.classList.add('decoding');
+    textBottomEl.classList.add('decoding');
+    loadingSection.classList.add('animate');
+
+    renderWord(textTopEl, scramble(targetTop, lockedTop));
+    renderWord(textBottomEl, scramble(targetBottom, lockedBottom));
+
+    const startTime = performance.now();
+
+    const interval = setInterval(() => {
+      if (blinkPauseActive) return;
+
+      const elapsed = performance.now() - startTime;
+
+      while (lockIndex < totalLetters) {
+        const nextTime = (lockIndex + 1) * LOCK_INTERVAL;
+        if (elapsed < nextTime) break;
+
+        const item = lockOrder[lockIndex];
+        if (item.word === 'top') {
+          lockedTop[item.index] = true;
+        } else {
+          lockedBottom[item.index] = true;
+        }
+        lockIndex++;
+
+        // Last letter locked — blink sequence
+        if (lockIndex >= totalLetters) {
+          blinkPauseActive = true;
+
+          // Blink the special letter inverted
+          renderWord(textTopEl, scrambleWithBlink(targetTop, lockedTop, lastNonSpaceTop, true));
+          renderWord(textBottomEl, scramble(targetBottom, lockedBottom));
+
+          setTimeout(() => {
+            renderWord(textTopEl, scrambleWithBlink(targetTop, lockedTop, lastNonSpaceTop, false));
+          }, LAST_LETTER_BLINK_1);
+
+          setTimeout(() => {
+            renderWord(textTopEl, scrambleWithBlink(targetTop, lockedTop, lastNonSpaceTop, true));
+          }, LAST_LETTER_BLINK_2);
+
+          setTimeout(() => {
+            renderWord(textTopEl, scrambleWithBlink(targetTop, lockedTop, lastNonSpaceTop, false));
+            clearInterval(interval);
+          }, LAST_LETTER_BLINK_END);
+
+          // Start live countdown
+          setTimeout(() => {
+            startCountdownTick();
+          }, COUNTDOWN_START_DELAY);
+
+          return;
+        }
+      }
+
+      renderWord(textTopEl, scramble(targetTop, lockedTop));
+      renderWord(textBottomEl, scramble(targetBottom, lockedBottom));
+    }, 50);
+  }
+
+  setTimeout(startSplash, 1500);
+</script>
+</body>
+</html>
