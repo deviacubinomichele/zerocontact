@@ -1,13 +1,13 @@
 
 {
   "pro": [
-    { "id": "1", "text": { "en": "'Time Attack' mode is under development!", "it": "Modalità 'Sfida a tempo' in fase di sviluppo!", "fr": "Le mode « Time Attack » est en cours de développement !", "sq": "Modi 'Time Attack' është në zhvillim!" } },
-    { "id": "2", "text": { "en": "Support for more languages is coming soon!", "it": "È in arrivo il supporto ad altre lingue!", "fr": "D'autres langues seront bientôt disponibles !", "sq": "Mbështetja për më shumë gjuhë do të vijë së shpejti!" } },
-    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated.",  "it": "Seguici sui tuoi social preferiti per rimanere aggiornato.",  "fr": "Suivez-nous sur vos réseaux sociaux préférés pour rester informé", "sq": "Na ndiqni në rrjetin tuaj social të preferuar për t'u mbajtur të informuar." } }
+    { "id": "1", "text": { "en": "'Time Attack' mode is under development!", "it": "Modalità 'Sfida a tempo' in fase di sviluppo!", "es": "¡El modo «Time Attack» está en desarrollo!", "fr": "Le mode « Time Attack » est en cours de développement !", "sq": "Modi 'Time Attack' është në zhvillim!" } },
+    { "id": "2", "text": { "en": "Support for more languages is coming soon!", "it": "È in arrivo il supporto ad altre lingue!", "es":"¡Próximamente habrá compatibilidad con más idiomas!", "fr": "D'autres langues seront bientôt disponibles !", "sq": "Mbështetja për më shumë gjuhë do të vijë së shpejti!" } },
+    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated.",  "it": "Seguici sui tuoi social preferiti per rimanere aggiornato.", "es":"Síguenos en tu red social favorita para estar al día", "fr": "Suivez-nous sur vos réseaux sociaux préférés pour rester informé", "sq": "Na ndiqni në rrjetin tuaj social të preferuar për t'u mbajtur të informuar." } }
   ],
   "free": [
-    { "id": "1", "text": { "en": "'Time Attack' mode is under development!", "it": "Modalità 'Sfida a tempo' in fase di sviluppo!", "fr": "Le mode « Time Attack » est en cours de développement !", "sq": "Modi 'Time Attack' është në zhvillim!" } },
-    { "id": "2", "text": { "en": "Support for more languages is coming soon!", "it": "È in arrivo il supporto ad altre lingue!", "fr": "D'autres langues seront bientôt disponibles !", "sq": "Mbështetja për më shumë gjuhë do të vijë së shpejti!" } },
-    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated.",  "it": "Seguici sui tuoi social preferiti per rimanere aggiornato.",  "fr": "Suivez-nous sur vos réseaux sociaux préférés pour rester informé", "sq": "Na ndiqni në rrjetin tuaj social të preferuar për t'u mbajtur të informuar." } }
+    { "id": "1", "text": { "en": "'Time Attack' mode is under development!", "it": "Modalità 'Sfida a tempo' in fase di sviluppo!", "es": "¡El modo «Time Attack» está en desarrollo!", "fr": "Le mode « Time Attack » est en cours de développement !", "sq": "Modi 'Time Attack' është në zhvillim!" } },
+    { "id": "2", "text": { "en": "Support for more languages is coming soon!", "it": "È in arrivo il supporto ad altre lingue!", "es":"¡Próximamente habrá compatibilidad con más idiomas!", "fr": "D'autres langues seront bientôt disponibles !", "sq": "Mbështetja për më shumë gjuhë do të vijë së shpejti!" } },
+    { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated.",  "it": "Seguici sui tuoi social preferiti per rimanere aggiornato.", "es":"Síguenos en tu red social favorita para estar al día", "fr": "Suivez-nous sur vos réseaux sociaux préférés pour rester informé", "sq": "Na ndiqni në rrjetin tuaj social të preferuar për t'u mbajtur të informuar." } }
   ]
 }
