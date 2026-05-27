@@ -8,7 +8,7 @@
       "zh-CN": "更多语言支持即将上线！", 
       "it": "È in arrivo il supporto ad altre lingue!", "ja": "より多くの言語のサポートが近日公開予定です！","de": "Weitere Sprachen werden in Kürze unterstützt!", "es":"¡Próximamente habrá compatibilidad con más idiomas!", "fr": "D'autres langues seront bientôt disponibles !", "sq": "Mbështetja për më shumë gjuhë do të vijë së shpejti!" } },
     { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated.", 
-      "zh-CN": "", 
+      "zh-CN": "在您常用的社交平台上关注我们，获取最新动态。", 
       "it": "Seguici sui tuoi social preferiti per rimanere aggiornato.", "ja": "最新情報はお気に入りのSNSでフォローしてください", "de": "Folge uns auf deinem bevorzugten sozialen Netzwerk, um auf dem Laufenden zu bleiben.", "es":"Síguenos en tu red social favorita para estar al día", "fr": "Suivez-nous sur vos réseaux sociaux préférés pour rester informé", "sq": "Na ndiqni në rrjetin tuaj social të preferuar për t'u mbajtur të informuar." } }
   ],
   "free": [
@@ -19,7 +19,7 @@
       "zh-CN": "更多语言支持即将上线！", 
       "it": "È in arrivo il supporto ad altre lingue!", "ja": "より多くの言語のサポートが近日公開予定です！", "de": "Weitere Sprachen werden in Kürze unterstützt!", "es":"¡Próximamente habrá compatibilidad con más idiomas!", "fr": "D'autres langues seront bientôt disponibles !", "sq": "Mbështetja për më shumë gjuhë do të vijë së shpejti!" } },
     { "id": "3", "text": { "en": "Follow us on your favorite social to stay updated.", 
-      "zh-CN": "",  
+      "zh-CN": "在您常用的社交平台上关注我们，获取最新动态。",  
       "it": "Seguici sui tuoi social preferiti per rimanere aggiornato.", "ja": "最新情報はお気に入りのSNSでフォローしてください", "de": "Folge uns auf deinem bevorzugten sozialen Netzwerk, um auf dem Laufenden zu bleiben.", "es":"Síguenos en tu red social favorita para estar al día", "fr": "Suivez-nous sur vos réseaux sociaux préférés pour rester informé", "sq": "Na ndiqni në rrjetin tuaj social të preferuar për t'u mbajtur të informuar." } }
   ]
 }
